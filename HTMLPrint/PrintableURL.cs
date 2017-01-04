@@ -1,5 +1,6 @@
 ﻿namespace HTMLPrint
 {
+    using System.Threading;
     using System.Windows.Forms;
 
     /// <summary>
@@ -30,9 +31,32 @@
         /// </summary>
         public void Print()
         {
+            PrintInThread();
+        }
+
+        #endregion
+
+
+        #region Internals
+
+        private void PrintInThread()
+        {
+            var print_thread = new Thread( PrintSync );
+            print_thread.SetApartmentState( ApartmentState.STA );
+            print_thread.Start();
+        }
+
+        private void PrintSync()
+        {
+            var browser = CreatePrintableBrowser();
+            browser.Navigate( _url );
+        }
+
+        private static WebBrowser CreatePrintableBrowser()
+        {
             var browser = new WebBrowser();
             browser.DocumentCompleted += OnDocumentCompleted;
-            browser.Navigate( _url );
+            return browser;
         }
 
         #endregion

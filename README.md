@@ -3,6 +3,6 @@
 
 ## Example
 ```csharp
-var printableURL = new PrintableURL( "https://github.com/slavikdev" )
-printableURL.Print();
+var printable_url = new PrintableURL( "https://github.com/slavikdev" );
+printable_url.Print();
 ```
